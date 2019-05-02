@@ -1,2 +1,2 @@
-# pasLINCS
-pasLINCS R package
+# paslincs
+paslincs R package
