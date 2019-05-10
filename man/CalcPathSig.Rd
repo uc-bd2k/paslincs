@@ -59,16 +59,16 @@ The PAS is returned as a data frame with two columns. The first column is the an
 }
 \examples{
 # load data
-LincsCGS <- downloadLINCS("LincsCGS")$LincsCGS
+downloadLINCS("LincsCGS")
 Data <- LincsCGS$MCF7
 
 # obtain edge information of a pathway
 Edges <- AllEdges[AllEdges$Pathway=="hsa04150",]
 
-# Calculate pathway signature by specifying edge information
+# calculate pathway signature by specifying edge information
 CalcPathSig(EdgeFrom=Edges$GeneSymbol_a,EdgeTo=Edges$GeneSymbol_b,interaction=Edges$Interaction,data=Data,neigen=1)
 
-# Calculate pathway signature by specifying adjacency matrix
+# calculate pathway signature by specifying adjacency matrix
 AdjMat <- CalcAdj(EdgeFrom=Edges$GeneSymbol_a,EdgeTo=Edges$GeneSymbol_b,interaction=Edges$Interaction)
 CalcPathSig(AdjMat=AdjMat,data=Data,neigen=1)
 }

@@ -55,16 +55,16 @@ The consistency score is returned as a list with the length of ncomp (if specifi
 }
 \examples{
 # load data
-LincsCGS <- downloadLINCS("LincsCGS")$LincsCGS
+downloadLINCS("LincsCGS")
 Data <- LincsCGS$MCF7
 
 # obtain edge information of a pathway
 Edges <- AllEdges[AllEdges$Pathway=="hsa04150",]
 
-# Calculate consistency score by specifying edge information
+# calculate consistency score by specifying edge information
 CalcScore(EdgeFrom=Edges$GeneSymbol_a,EdgeTo=Edges$GeneSymbol_b,interaction=Edges$Interaction,data=Data,neigen=1)
 
-# Calculate consistency score by specifying adjacency matrix
+# calculate consistency score by specifying adjacency matrix
 AdjMat <- CalcAdj(EdgeFrom=Edges$GeneSymbol_a,EdgeTo=Edges$GeneSymbol_b,interaction=Edges$Interaction)
 CalcScore(AdjMat=AdjMat,data=Data,neigen=1)
 }

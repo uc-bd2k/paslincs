@@ -50,10 +50,10 @@ If the pathway topology is a balanced signed graph (no conflict in the interacti
 # obtain edge information of a pathway
 Edges <- AllEdges[AllEdges$Pathway=="hsa04150",]
 
-# Calculate the eigenvalues and eigenvectors by specifying edge information
+# calculate the eigenvalues and eigenvectors by specifying edge information
 CalcTopoSig(EdgeFrom=Edges$GeneSymbol_a,EdgeTo=Edges$GeneSymbol_b,interaction=Edges$Interaction)
 
-# Calculate the eigenvalues and eigenvectors by specifying adjacency matrix
+# calculate the eigenvalues and eigenvectors by specifying adjacency matrix
 AdjMat <- CalcAdj(EdgeFrom=Edges$GeneSymbol_a,EdgeTo=Edges$GeneSymbol_b,interaction=Edges$Interaction)
 CalcTopoSig(AdjMat=AdjMat)
 }

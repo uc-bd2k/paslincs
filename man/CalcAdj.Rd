@@ -47,7 +47,7 @@ If the graph of the pathway topology is balanced (no conflict in the interaction
 # obtain edge information of a pathway
 Edges <- AllEdges[AllEdges$Pathway=="hsa04150",]
 
-# Calculate the signed adjacency matrix of the pathway topology
+# calculate the signed adjacency matrix of the pathway topology
 CalcAdj(EdgeFrom=Edges$GeneSymbol_a,EdgeTo=Edges$GeneSymbol_b,interaction=Edges$Interaction)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

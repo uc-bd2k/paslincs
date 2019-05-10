@@ -1,9 +1,9 @@
 ---
 title: "User's Guide of *paslincs* Package - Identify Target Pathway"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 editor_options:
   chunk_output_type: inline
 ---
@@ -20,6 +20,12 @@ library(paslincs)
 ```{r}
 PAS_MCF7 <- PathSigTableList$MCF7
 head(PAS_MCF7[,1:5])
+```
+
+##Load all pathway names for annotating:
+```{r}
+AllPathwayName <- unique(AllEdges[,c("Pathway","PathwayName")])
+rownames(AllPathwayName) <- AllPathwayName$Pathway
 ```
 
 ##Senario I: perturbation signature of amino scid starvation
@@ -41,8 +47,6 @@ topPathways
 
 ###Annotating results with  pathway names:
 ```{r}
-AllPathwayName <- unique(AllEdges[,c("Pathway","PathwayName")])
-rownames(AllPathwayName) <- AllPathwayName$Pathway
 data.frame(PathwayID=topPathways,PathwayName=AllPathwayName[topPathways,"PathwayName"],
            Correlations=abs(corsWithPas[1,])[topPathways],stringsAsFactors=FALSE)
 ```
@@ -99,7 +103,7 @@ for (i in 1:length(PathwayList)) {
   cortab[i,] <- apply(cpsig,2,function(x) cor(pathsig,x))
 }
 colnames(cortab) <- colnames(CP_MCF7)
-CorTable <- data.frame(Pathway=PathwayList,cortab,row.names=PathwayList,
+CorTable <- data.frame(cortab,row.names=PathwayList,
                        stringsAsFactors=FALSE)
 ```
 
@@ -128,20 +132,22 @@ CP_MCF7 <- data.frame(LincsCP$MCF7[,"LINCSCP_31997"],row.names=rownames(LincsCP$
                       stringsAsFactors=FALSE) 
 ```
 
-##Correlate CP signatures to pathways:
+##Load the list of pathways:
 ```{r}
-Score <- rep(NA,length=length(PathwayList))
-for (i in 1:length(PathwayList)) {
- Edges <- AllEdges[AllEdges$Pathway==PathwayList[i],]
- invisible(capture.output(score_tmp <- CalcTPSig(EdgeFrom=Edges$GeneSymbol_a,
-                                                 EdgeTo=Edges$GeneSymbol_b,
-                                                 interaction=Edges$Interaction,
-                                                 data=CP_MCF7,neigen=1)$Score))
- if (!is.null(score_tmp)) {
-   Score[i] <- score_tmp
- }
-}
-names(Score) <- PathwayList
+PAS_MCF7 <- PathSigTableList$MCF7
+PathwayList<- colnames(PAS_MCF7)[-1]
+Edges <- AllEdges[AllEdges$Pathway %in% PathwayList,]
+```
+
+##Associate CP signatures to pathways:
+```{r}
+invisible(capture.output(Score <- unlist(CalcTPSig(EdgeInfo=Edges,
+                                            EdgeFrom="GeneSymbol_a",
+                                            EdgeTo="GeneSymbol_b",
+                                            pathway="Pathway",
+                                            interaction="Interaction",
+                                            data=CP_MCF7,neigen=1))))
+names(Score) <- unique(Edges$Pathway)
 topPathways<-names(head(sort(Score,na.last=T,decreasing=T),n=5))
 topPathways
 ```
@@ -149,7 +155,7 @@ topPathways
 ##Annotating results of identifying target pathways with  pathway names:
 ```{r}
 data.frame(PathwayID=topPathways,PathwayName=AllPathwayName[topPathways,"PathwayName"],
-           Correlations=Score[topPathways],stringsAsFactors=FALSE)
+           Association=Score[topPathways],stringsAsFactors=FALSE)
 ```
 
 ##Load the signatures of CPs which inhibit any protein(s) in the pathway of interest:
@@ -162,25 +168,12 @@ CP_MCF7 <- LincsCP$MCF7[,mTOR_CP_SigID]
 
 ##Annotating results of benchmarking: 
 ```{r}
-scoretab <- matrix(NA,ncol=ncol(CP_MCF7),nrow=length(PathwayList))
-for (i in 1:length(PathwayList)) {
- Edges <- AllEdges[AllEdges$Pathway==PathwayList[i],]
- invisible(capture.output(score_tmp <- CalcTPSig(EdgeFrom=Edges$GeneSymbol_a,
-                                                 EdgeTo=Edges$GeneSymbol_b,
-                                                 interaction=Edges$Interaction,
-                                                 data=CP_MCF7,neigen=1)$Score))
- if (!is.null(score_tmp)) {
-   scoretab[i,] <- score_tmp
- }   
-}
-ScoreTable <- data.frame(Pathway=PathwayList,scoretab,row.names=PathwayList,
-                         stringsAsFactors=FALSE)
-colnames(ScoreTable)[-1] <- mTOR_CP_SigID
-ScoreTable <- ScoreTable[apply(ScoreTable[,-1],1,function(x) sum(is.na(x))!=length(x)),]
+ScoreTable <- CalcTPSig(EdgeInfo=Edges,EdgeFrom="GeneSymbol_a",EdgeTo="GeneSymbol_b",pathway="Pathway",interaction="Interaction",data=CP_MCF7,neigen=1)
+ScoreTable <- ScoreTable[apply(ScoreTable,1,function(x) sum(is.na(x))!=length(x)),]
 
 source("http://eh3.uc.edu/genomics/GenomicsPortals/ilincs/paslincs/BenchPathway.R")
 BenchRes <- BenchPathway(cordata=ScoreTable,pathway=PathwayOfInterest,
-                         metadata=LincsMeta$MCF7,pathlist=PathwayList,cutoff=0.95,direction="<")
+                         metadata=LincsMeta$MCF7,pathlist=rownames(ScoreTable),cutoff=0.95,direction="<")
 data.frame(Pathway=PathwayOfInterest,PathwayName=AllPathwayName[PathwayOfInterest,"PathwayName"],
            AUC=BenchRes$AUC,rpAUC=BenchRes$rpAUC,stringsAsFactors=FALSE)
 ```

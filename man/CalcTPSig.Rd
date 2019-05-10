@@ -2,27 +2,30 @@
 \alias{CalcTPSig}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Calculate the correlation signature by using topology information only
+Calculate the association signature by using topology information only
 }
 \description{
-Calculate the correlation signature of a pathway to perturbation signatures
+Calculate the association signature of a pathway to perturbation signatures
 }
 \usage{
-CalcTPSig(EdgeFrom,EdgeTo,interaction,AdjMat=NULL,ncomp=NULL,data,neigen=NULL)
+CalcTPSig(EdgeInfo,EdgeFrom,EdgeTo,pathway,interaction,ncomp=NULL,data,neigen=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+  \item{EdgeInfo}{
+  A dataframe containing interaction information of all pathways. There are at least three columns for the gene symbols of each end of an interaction and the interaction type. 
+  }
   \item{EdgeFrom}{
-  A character vector of gene symbols of one end of the topology edges. This parameter is ignored if \code{AdjMat} is specified.
+  A character value for the column name of one end of the edges in the dataframe *EdgeInfo*.
   }
   \item{EdgeTo}{
-  A character vector of gene symbols of the other end of the topology edges. This parameter is ignored if \code{AdjMat} is specified.
+  A character value for the column name of the other end of the edges in the dataframe *EdgeInfo*.
+  }
+  \item{pathway}{
+  A character value for the column name of the pathway ID in the dataframe *EdgeInfo*.
   }
   \item{interaction}{
-  A numeric vector with components of 1 and -1 to denote activation and inhibition for the topology edges. This parameter is ignored if \code{AdjMat} is specified.
-  }
-  \item{AdjMat}{
-  The signed undirected adjacency matrix for the pathway topology. This parameter is ignored if \code{(EdgeFrom,EdgeTo,interaction)} is specified.
+  A numeric value for the column name of the interaction type in the dataframe *EdgeInfo*.
   }
   \item{ncomp}{
   The pre-specified number of graph components used to calculate the consistency score. Default is using all components.
@@ -57,18 +60,16 @@ The correlation signature is returned as a data frame with two columns. The firs
 }
 \examples{
 # load data
-LincsCP <- downloadLINCS("LincsCP")$LincsCP
+downloadLINCS("LincsCP")
 Data <- LincsCP$MCF7
 
-# obtain edge information of a pathway
-Edges <- AllEdges[AllEdges$Pathway=="hsa04150",]
+# calculate the association signature 
+CalcTPSig(EdgeInfo=AllEdges,EdgeFrom="GeneSymbol_a",EdgeTo="GeneSymbol_b",pathway="Pathway",interaction="Interaction",data=Data,neigen=1)
 
-# Calculate correlation signature by specifying edge information
-CalcTPSig(EdgeFrom=Edges$GeneSymbol_a,EdgeTo=Edges$GeneSymbol_b,interaction=Edges$Interaction,data=Data,neigen=1)
-
-# Calculate correlation signature by specifying adjacency matrix
-AdjMat <- CalcAdj(EdgeFrom=Edges$GeneSymbol_a,EdgeTo=Edges$GeneSymbol_b,interaction=Edges$Interaction)
-CalcTPSig(AdjMat=AdjMat,data=Data,neigen=1)
+# calculate the association signature for a specific pathway
+pathway <- "hsa04150"
+edge <- AllEdges[AllEdges$Pathway==pathway,]
+CalcTPSig(EdgeInfo=edge,EdgeFrom="GeneSymbol_a",EdgeTo="GeneSymbol_b",pathway="Pathway",interaction="Interaction",data=Data,neigen=1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

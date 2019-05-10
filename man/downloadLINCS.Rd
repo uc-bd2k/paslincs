@@ -38,10 +38,12 @@ A list will be returned. Each element of the list is one type of the specified L
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-AllLINCS <- downloadLINCS("All")
-names(AllLINCS)
+# download all LINCS data
+downloadLINCS("All")
+ls()
 
-MetaData <- downloadLINCS(c("LincsMeta","LincsGeneInfo"))
+# download *LincsMeta* and *LincsGeneInfo*
+downloadLINCS(c("LincsMeta","LincsGeneInfo"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

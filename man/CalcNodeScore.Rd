@@ -57,7 +57,7 @@ A data frame with two columns is returned: the first column is the annotation of
 }
 \examples{
 # load data
-LincsCGS <- downloadLINCS("LincsCGS")$LincsCGS
+downloadLINCS("LincsCGS")
 Data <- LincsCGS$MCF7
 
 # obtain edge information of a pathway
@@ -66,7 +66,7 @@ Edges <- AllEdges[AllEdges$Pathway=="hsa04150",]
 # define a node of interest
 Node <- "MTOR"
 
-# Calculate node contribution score
+# calculate node contribution score
 CalcNodeScore(EdgeFrom=Edges$GeneSymbol_a,EdgeTo=Edges$GeneSymbol_b,interaction=Edges$Interaction,ncomp=NULL,neigen=1,data=Data,node=Node)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
