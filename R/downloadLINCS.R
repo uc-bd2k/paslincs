@@ -5,7 +5,7 @@ downloadLINCS <- function(dataTable=c("All","LincsCGS","LincsCP","LincsMeta","Li
   for (data in dataTable) {
     load(url(paste0("http://eh3.uc.edu/genomics/GenomicsPortals/ilincs/paslincs/", 
                     data, ".RData")))
-    # assign(data,get(data),envir=.GlobalEnv)
+    assign(data,get(data),envir=.GlobalEnv)
   }
-    return(mget(dataTable))
+    return(dataTable)
 }
