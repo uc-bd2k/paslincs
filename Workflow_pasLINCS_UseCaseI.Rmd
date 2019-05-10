@@ -108,8 +108,10 @@ CorTable <- data.frame(cortab,row.names=PathwayList,
 ```
 
 ##Calculating ROC curve:
-```{r}
+```{r, results="hide",message=FALSE}
 source("http://eh3.uc.edu/genomics/GenomicsPortals/ilincs/paslincs/BenchPathway.R")
+```
+```{r}
 BenchRes <- BenchPathway(cordata=CorTable,pathway=PathwayOfInterest,
                          metadata=LincsMeta$MCF7,pathlist=PathwayList,cutoff=0.95)
 
@@ -168,10 +170,18 @@ CP_MCF7 <- LincsCP$MCF7[,mTOR_CP_SigID]
 
 ##Annotating results of benchmarking: 
 ```{r}
-ScoreTable <- CalcTPSig(EdgeInfo=Edges,EdgeFrom="GeneSymbol_a",EdgeTo="GeneSymbol_b",pathway="Pathway",interaction="Interaction",data=CP_MCF7,neigen=1)
+invisible(capture.output(ScoreTable <- CalcTPSig(EdgeInfo=Edges,
+                                                 EdgeFrom="GeneSymbol_a",
+                                                 EdgeTo="GeneSymbol_b",
+                                                 pathway="Pathway",
+                                                 interaction="Interaction",
+                                                 data=CP_MCF7,neigen=1)))
 ScoreTable <- ScoreTable[apply(ScoreTable,1,function(x) sum(is.na(x))!=length(x)),]
-
+```
+```{r, results="hide",message=FALSE}
 source("http://eh3.uc.edu/genomics/GenomicsPortals/ilincs/paslincs/BenchPathway.R")
+```
+```{r}
 BenchRes <- BenchPathway(cordata=ScoreTable,pathway=PathwayOfInterest,
                          metadata=LincsMeta$MCF7,pathlist=rownames(ScoreTable),cutoff=0.95,direction="<")
 data.frame(Pathway=PathwayOfInterest,PathwayName=AllPathwayName[PathwayOfInterest,"PathwayName"],
