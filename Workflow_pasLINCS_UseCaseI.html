@@ -357,18 +357,13 @@ data.frame(Pathway=PathwayOfInterest,PathwayName=AllPathwayName[PathwayOfInteres
 <h2>Load the list of pathways:</h2>
 <pre class="r"><code>PAS_MCF7 &lt;- PathSigTableList$MCF7
 PathwayList&lt;- colnames(PAS_MCF7)[-1]
-Edges &lt;- AllEdges[AllEdges$Pathway %in% PathwayList,]</code></pre>
+pathwayTopologies &lt;- AllEdges[AllEdges$Pathway %in% PathwayList,]</code></pre>
 </div>
 <div id="associate-cp-signatures-to-pathways" class="section level2">
 <h2>Associate CP signatures to pathways:</h2>
-<pre class="r"><code>invisible(capture.output(Score &lt;- unlist(CalcTPSig(EdgeInfo=Edges,
-                                            EdgeFrom=&quot;GeneSymbol_a&quot;,
-                                            EdgeTo=&quot;GeneSymbol_b&quot;,
-                                            pathway=&quot;Pathway&quot;,
-                                            interaction=&quot;Interaction&quot;,
-                                            data=CP_MCF7,neigen=1))))
-names(Score) &lt;- unique(Edges$Pathway)
-topPathways&lt;-names(head(sort(Score,na.last=T,decreasing=T),n=5))
+<pre class="r"><code>Score &lt;- unlist(CalcTPSig(EdgeInfo=pathwayTopologies,data=CP_MCF7,neigen=1))
+names(Score) &lt;- unique(pathwayTopologies$Pathway)</code></pre>
+<pre class="r"><code>topPathways&lt;-names(head(sort(Score,na.last=T,decreasing=T),n=5))
 topPathways</code></pre>
 <pre><code>## [1] &quot;hsa04115&quot; &quot;hsa05166&quot; &quot;hsa05231&quot; &quot;hsa04612&quot; &quot;hsa05416&quot;</code></pre>
 </div>
@@ -391,14 +386,10 @@ CP_MCF7 &lt;- LincsCP$MCF7[,mTOR_CP_SigID]</code></pre>
 </div>
 <div id="annotating-results-of-benchmarking" class="section level2">
 <h2>Annotating results of benchmarking:</h2>
-<pre class="r"><code>invisible(capture.output(ScoreTable &lt;- CalcTPSig(EdgeInfo=Edges,
-                                                 EdgeFrom=&quot;GeneSymbol_a&quot;,
-                                                 EdgeTo=&quot;GeneSymbol_b&quot;,
-                                                 pathway=&quot;Pathway&quot;,
-                                                 interaction=&quot;Interaction&quot;,
-                                                 data=CP_MCF7,neigen=1)))
-ScoreTable &lt;- ScoreTable[apply(ScoreTable,1,function(x) sum(is.na(x))!=length(x)),]</code></pre>
-<pre class="r"><code>source(&quot;http://eh3.uc.edu/genomics/GenomicsPortals/ilincs/paslincs/BenchPathway.R&quot;)</code></pre>
+<pre class="r"><code>ScoreTable &lt;- CalcTPSig(EdgeInfo=pathwayTopologies,data=CP_MCF7,neigen=1)
+ScoreTable &lt;- ScoreTable[apply(ScoreTable,1,function(x) sum(is.na(x))!=length(x)),]
+
+source(&quot;http://eh3.uc.edu/genomics/GenomicsPortals/ilincs/paslincs/BenchPathway.R&quot;)</code></pre>
 <pre class="r"><code>BenchRes &lt;- BenchPathway(cordata=ScoreTable,pathway=PathwayOfInterest,
                          metadata=LincsMeta$MCF7,pathlist=rownames(ScoreTable),cutoff=0.95,direction=&quot;&lt;&quot;)
 data.frame(Pathway=PathwayOfInterest,PathwayName=AllPathwayName[PathwayOfInterest,&quot;PathwayName&quot;],

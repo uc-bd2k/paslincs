@@ -142,10 +142,11 @@ pathwayTopologies <- AllEdges[AllEdges$Pathway %in% PathwayList,]
 ```
 
 ##Associate CP signatures to pathways:
-```{r}
-invisible(capture.output(Score <- unlist(CalcTPSig(EdgeInfo=pathwayTopologies,
-                                            data=CP_MCF7,neigen=1))))
+```{r, results="hide",message=FALSE}
+Score <- unlist(CalcTPSig(EdgeInfo=pathwayTopologies,data=CP_MCF7,neigen=1))
 names(Score) <- unique(pathwayTopologies$Pathway)
+```
+```{r}
 topPathways<-names(head(sort(Score,na.last=T,decreasing=T),n=5))
 topPathways
 ```
@@ -165,12 +166,10 @@ CP_MCF7 <- LincsCP$MCF7[,mTOR_CP_SigID]
 ```
 
 ##Annotating results of benchmarking: 
-```{r}
-invisible(capture.output(ScoreTable <- CalcTPSig(EdgeInfo=pathwayTopologies,
-                                                 data=CP_MCF7,neigen=1)))
-ScoreTable <- ScoreTable[apply(ScoreTable,1,function(x) sum(is.na(x))!=length(x)),]
-```
 ```{r, results="hide",message=FALSE}
+ScoreTable <- CalcTPSig(EdgeInfo=pathwayTopologies,data=CP_MCF7,neigen=1)
+ScoreTable <- ScoreTable[apply(ScoreTable,1,function(x) sum(is.na(x))!=length(x)),]
+
 source("http://eh3.uc.edu/genomics/GenomicsPortals/ilincs/paslincs/BenchPathway.R")
 ```
 ```{r}
