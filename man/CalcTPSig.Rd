@@ -8,7 +8,7 @@ Calculate the association signature by using topology information only
 Calculate the association signature of a pathway to perturbation signatures
 }
 \usage{
-CalcTPSig(EdgeInfo,EdgeFrom,EdgeTo,pathway,interaction,ncomp=NULL,data,neigen=NULL)
+CalcTPSig(EdgeInfo,EdgeFrom="GeneSymbol_a",EdgeTo="GeneSymbol_b",pathway="Pathway",interaction="Interaction",ncomp=NULL,data,neigen=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -16,25 +16,25 @@ CalcTPSig(EdgeInfo,EdgeFrom,EdgeTo,pathway,interaction,ncomp=NULL,data,neigen=NU
   A dataframe containing interaction information of all pathways. There are at least three columns for the gene symbols of each end of an interaction and the interaction type. 
   }
   \item{EdgeFrom}{
-  A character value for the column name of one end of the edges in the dataframe *EdgeInfo*.
+  A character value for the column name of one end of the edges in the dataframe *EdgeInfo*. Default is "GeneSymbol_a".
   }
   \item{EdgeTo}{
-  A character value for the column name of the other end of the edges in the dataframe *EdgeInfo*.
+  A character value for the column name of the other end of the edges in the dataframe *EdgeInfo*. Default is "GeneSymbol_b".
   }
   \item{pathway}{
-  A character value for the column name of the pathway ID in the dataframe *EdgeInfo*.
+  A character value for the column name of the pathway ID in the dataframe *EdgeInfo*. Default is "Pathway".
   }
   \item{interaction}{
-  A numeric value for the column name of the interaction type in the dataframe *EdgeInfo*.
+  A numeric value for the column name of the interaction type in the dataframe *EdgeInfo*. Default is "Interaction".
   }
   \item{ncomp}{
-  The pre-specified number of graph components used to calculate the consistency score. Default is using all components.
+  The pre-specified number of graph components used to calculate the consistency score. Default is to use all components.
   }
   \item{data}{
   A numeric matrix of gene expression levels, with rows as gene profiles and columns as perturbations.
   }
   \item{neigen}{
-  The maximum number of eigen vectors used to calculate gene scores. Default is using all eigen vectors.
+  The maximum number of eigen vectors used to calculate gene scores. Default is to use all eigen vectors.
   }
 }
 \details{
@@ -64,12 +64,12 @@ downloadLINCS("LincsCP")
 Data <- LincsCP$MCF7
 
 # calculate the association signature 
-CalcTPSig(EdgeInfo=AllEdges,EdgeFrom="GeneSymbol_a",EdgeTo="GeneSymbol_b",pathway="Pathway",interaction="Interaction",data=Data,neigen=1)
+CalcTPSig(EdgeInfo=AllEdges,data=Data,neigen=1)
 
 # calculate the association signature for a specific pathway
 pathway <- "hsa04150"
 edge <- AllEdges[AllEdges$Pathway==pathway,]
-CalcTPSig(EdgeInfo=edge,EdgeFrom="GeneSymbol_a",EdgeTo="GeneSymbol_b",pathway="Pathway",interaction="Interaction",data=Data,neigen=1)
+CalcTPSig(EdgeInfo=edge,data=Data,neigen=1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
