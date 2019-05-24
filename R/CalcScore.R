@@ -45,7 +45,7 @@ CalcScore <- function(EdgeFrom,EdgeTo,interaction,AdjMat=NULL,ncomp=NULL,data,ne
        neigen_t <- nnode
      }
      if (neigen_t==1) {
-       Score <- (as.vector(Ymat%*%cbind(TopoSig$vectors[colnames(Ymat),nnode])))^2
+       Score <- (as.vector(Ymat%*%cbind(sign(TopoSig$vectors[colnames(Ymat),nnode]))))^2
        names(Score) <- rownames(Ymat)
      } else {
        wt <- (0.9-TopoSig$values[(nnode-neigen_t+1):nnode])/2/(TopoSig$values[(nnode-neigen_t+1):nnode]+1.1)
