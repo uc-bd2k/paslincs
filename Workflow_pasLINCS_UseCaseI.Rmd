@@ -113,7 +113,7 @@ source("http://eh3.uc.edu/genomics/GenomicsPortals/ilincs/paslincs/BenchPathway.
 ```
 ```{r}
 BenchRes <- BenchPathway(cordata=CorTable,pathway=PathwayOfInterest,
-                         metadata=LincsMeta$MCF7,pathlist=PathwayList,cutoff=0.95)
+                         metadata=LincsMeta$MCF7,pathlist=PathwayList,cutoff=0.9)
 
 data.frame(Pathway=PathwayOfInterest,PathwayName=AllPathwayName[PathwayOfInterest,"PathwayName"],
            AUC=BenchRes$AUC,rpAUC=BenchRes$rpAUC,stringsAsFactors=FALSE)
@@ -174,7 +174,7 @@ source("http://eh3.uc.edu/genomics/GenomicsPortals/ilincs/paslincs/BenchPathway.
 ```
 ```{r}
 BenchRes <- BenchPathway(cordata=ScoreTable,pathway=PathwayOfInterest,
-                         metadata=LincsMeta$MCF7,pathlist=rownames(ScoreTable),cutoff=0.95,direction="<")
+                         metadata=LincsMeta$MCF7,pathlist=rownames(ScoreTable),cutoff=0.9,direction="<")
 data.frame(Pathway=PathwayOfInterest,PathwayName=AllPathwayName[PathwayOfInterest,"PathwayName"],
            AUC=BenchRes$AUC,rpAUC=BenchRes$rpAUC,stringsAsFactors=FALSE)
 ```
