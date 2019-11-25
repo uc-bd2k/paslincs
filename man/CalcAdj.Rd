@@ -13,13 +13,13 @@ CalcAdj(EdgeFrom,EdgeTo,interaction)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{EdgeFrom}{
-  A character vector of gene symbols of one end of the topology edges. This parameter is ignored if \code{AdjMat} is specified.
+  A character vector of gene symbols of one end of the edges. 
   }
   \item{EdgeTo}{
-  A character vector of gene symbols of the other end of the topology edges. This parameter is ignored if \code{AdjMat} is specified.
+  A character vector of gene symbols of the other end of the edges. 
   }
   \item{interaction}{
-  A numeric vector with components of 1 and -1 to denote activation and inhibition for the topology edges. This parameter is ignored if \code{AdjMat} is specified.
+  A numeric vector with components of 1 and -1 to denote activation and inhibition for the edges. 
   }
 }
 \details{

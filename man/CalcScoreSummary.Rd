@@ -5,33 +5,33 @@
 Calculate the summarized consistency score for each gene profiles
 }
 \description{
-Calculate the summarized consistency score which is the total value of the absolute consistency scores of a gene profile for each connected sub-network.
+Calculate the summarized consistency score which is the sum of the consistency scores for all considered sub-graphs.
 }
 \usage{
 CalcScoreSummary(EdgeFrom, EdgeTo, interaction, AdjMat = NULL, ncomp = NULL, data, neigen = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{EdgeFrom}{
-  A character vector of gene symbols of one end of the topology edges. This parameter is ignored if \code{AdjMat} is specified.
+  item{EdgeFrom}{
+  A character vector of gene symbols of one end of the edges. This parameter is ignored if \code{AdjMat} is specified.
   }
   \item{EdgeTo}{
-  A character vector of gene symbols of the other end of the topology edges. This parameter is ignored if \code{AdjMat} is specified.
+  A character vector of gene symbols of the other end of the edges. This parameter is ignored if \code{AdjMat} is specified.
   }
   \item{interaction}{
-  A numeric vector with components of 1 and -1 to denote activation and inhibition for the topology edges. This parameter is ignored if \code{AdjMat} is specified.
+  A numeric vector with components of 1 and -1 to denote activation and inhibition for the edges. This parameter is ignored if \code{AdjMat} is specified.
   }
   \item{AdjMat}{
-  The signed undirected adjacency matrix for the pathway topology. This parameter is ignored if \code{(EdgeFrom,EdgeTo,interaction)} is specified.
+  The signed undirected adjacency matrix for the pathway topology. 
   }
   \item{ncomp}{
-  The pre-specified number of graph components used to calculate the consistency score. Default is using all components.
+  The pre-specified number of sub-graphs used to calculate the consistency score. Default is using all sub-graphs.
   }
   \item{data}{
-  A numeric matrix of gene expression levels, with rows as gene profiles and columns as knockdown genes in the pathway (column names are the knockdown gene symbols).
+  A data frame of gene expression levels, with rows for profile genes and columns for perturbed pathway genes/proteins (column names are the perturbed gene/protein symbols).
   }
   \item{neigen}{
-  The maximum number of eigen vectors used to calculate gene scores. Default is using all eigen vectors.
+  The maximum number of eigen sub-spaces used to calculate gene scores. Default is using all eigen sub-spaces.
   }
 }
 \details{

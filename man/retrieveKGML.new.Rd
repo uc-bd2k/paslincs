@@ -8,11 +8,11 @@ Retrieve the KGML file of a KEGG pathway
 Retrieve the KGML file of a KEGG pathway
 }
 \usage{
-retrieveKGML.new(pathwayid, organism, destfile, method = "auto", ...)
+retrieveKGML.new(pathway, organism, destfile, method = "auto", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{pathwayid}{
+  \item{pathway}{
   A character value of KEGG pathway ID as in \code{\link{EdgeInfo}}.
   }
   \item{organism}{
@@ -22,7 +22,7 @@ retrieveKGML.new(pathwayid, organism, destfile, method = "auto", ...)
   The output file, to which the KGML file is saved.
   }
   \item{method}{
-  A character value of the method used to download file. See details of \code{KEGGgraph::retrieveKGML} (\url{https://www.rdocumentation.org/packages/KEGGgraph/versions/1.30.0/topics/getKGMLurl}).
+  A character value of the method used to download file. Default is "auto". See details of \code{KEGGgraph::retrieveKGML} (\url{https://www.rdocumentation.org/packages/KEGGgraph/versions/1.30.0/topics/getKGMLurl}).
   }
 }
 \details{

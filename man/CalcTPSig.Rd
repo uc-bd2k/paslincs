@@ -5,15 +5,18 @@
 Calculate the association signature by using topology information only
 }
 \description{
-Calculate the association signature of a pathway to perturbation signatures
+Calculate the association signature of a pathway to chemical perturbation signatures
 }
 \usage{
-CalcTPSig(EdgeInfo,EdgeFrom="GeneSymbol_a",EdgeTo="GeneSymbol_b",pathway="Pathway",interaction="Interaction",ncomp=NULL,data,neigen=NULL)
+CalcTPSig(EdgeInfo,pathway="Pathway",EdgeFrom="GeneSymbol_a",EdgeTo="GeneSymbol_b",interaction="Interaction",ncomp=NULL,data,neigen=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{EdgeInfo}{
-  A dataframe containing interaction information of all pathways. There are at least three columns for the gene symbols of each end of an interaction and the interaction type. 
+  A data frame containing interaction information of all pathways. Four columns are required in this data frame: pathway annotations, gene symbols of one end of the edges, gene symbols of the other end of the edges, interaction types of the edges. 
+  }
+  \item{pathway}{
+  A character value for the column name of the pathway ID in the dataframe *EdgeInfo*. Default is "Pathway".
   }
   \item{EdgeFrom}{
   A character value for the column name of one end of the edges in the dataframe *EdgeInfo*. Default is "GeneSymbol_a".
@@ -21,27 +24,24 @@ CalcTPSig(EdgeInfo,EdgeFrom="GeneSymbol_a",EdgeTo="GeneSymbol_b",pathway="Pathwa
   \item{EdgeTo}{
   A character value for the column name of the other end of the edges in the dataframe *EdgeInfo*. Default is "GeneSymbol_b".
   }
-  \item{pathway}{
-  A character value for the column name of the pathway ID in the dataframe *EdgeInfo*. Default is "Pathway".
-  }
   \item{interaction}{
   A numeric value for the column name of the interaction type in the dataframe *EdgeInfo*. Default is "Interaction".
   }
   \item{ncomp}{
-  The pre-specified number of graph components used to calculate the consistency score. Default is to use all components.
+  The pre-specified number of sub-graphs used to calculate the consistency score. Default is to use all sub-graphs.
   }
   \item{data}{
-  A numeric matrix of gene expression levels, with rows as gene profiles and columns as perturbations.
+  A data frame of gene expression levels, with rows for profile genes and columns for chemical perturbations.
   }
   \item{neigen}{
-  The maximum number of eigen vectors used to calculate gene scores. Default is to use all eigen vectors.
+  The maximum number of eigen sub-spaces used to calculate gene scores. Default is using all eigen sub-spaces.
   }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-The correlation signature is returned as a data frame with two columns. The first column is the annotations of the perturbations, and the second column is the pathway activity scores, which is a measure of the correlations of a pathway to the perturbations.
+The association signature is returned as a data frame with two columns. The first column is the annotations of the chemical perturbations, and the second column is the association scores, which is a measure of the association of a pathway to the perturbations.
 }
 \references{
 %% ~put references to the literature/web site here ~

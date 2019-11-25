@@ -1,4 +1,4 @@
-CalcTPSig <- function(EdgeInfo,EdgeFrom="GeneSymbol_a",EdgeTo="GeneSymbol_b",pathway="Pathway",interaction="Interaction",ncomp=NULL,data,neigen=NULL) {
+CalcTPSig <- function(EdgeInfo,pathway="Pathway",EdgeFrom="GeneSymbol_a",EdgeTo="GeneSymbol_b",interaction="Interaction",ncomp=NULL,data,neigen=NULL) {
   PathwayList <- unique(EdgeInfo[,pathway])
   ScoreTab <- matrix(NA,ncol=ncol(data),nrow=length(PathwayList))
   rownames(ScoreTab) <- PathwayList

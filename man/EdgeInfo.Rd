@@ -8,11 +8,11 @@ Parse the protein-protein interactions of a KEGG pathway
 Parse the protein-protein inhibition/activation interactions of a KEGG pathway
 }
 \usage{
-EdgeInfo(pathwayid)
+EdgeInfo(pathway)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{pathwayid}{
+  \item{pathway}{
   A character value of KEGG pathway ID, e.g. \code{"hsa04150"}. \code{pathway} must be specified with the three- or four-letter KEGG organism code (see organism code at: \url{https://www.genome.jp/kegg-bin/get_htext?br08601.keg}).
   }
 }
@@ -20,31 +20,26 @@ EdgeInfo(pathwayid)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-A data frame is returned with eight columns:
-  \item{from}{
-  Gene identifier with orginism code for one end of a protein-protein interaction.
-  }
-  \item{to}{
-  Gene identifier with orginism code for the other end of a protein-protein interaction.
-  }
-  \item{subtype}{
+A data frame is returned with six columns:
+  \item{Subtype}{
   Type of the protein-protein interaction, either \code{"activation"} or \code{"inhibition"}.
   }
   \item{GeneID_a}{
-  Gene ID of one end of a protein-protein interaction.
+  Gene ID of one end of protein-protein interactions.
   }
   \item{GeneID_b}{
-  Gene ID of the other end of a protein-protein interaction.
-  }
-  \item{Interaction}{
-  Code of the type of the protein-protein interaction. The value \code{"1"} corresponds to \code{"activation"}, and \code{"-1"} corresponds to \code{"inhibition"}.
+  Gene ID of the other end of protein-protein interactions.
   }
   \item{GeneSymbol_a}{
-  Gene symbol of one end of a protein-protein interaction.
+  Gene symbol of one end of protein-protein interactions.
   }
   \item{GeneSymbol_b}{
-  Gene symbol of the other end of a protein-protein interaction.
+  Gene symbol of the other end of protein-protein interactions.
   }
+  \item{Interaction}{
+  Code of the types of protein-protein interactions. The value \code{"1"} corresponds to \code{"activation"}, and \code{"-1"} corresponds to \code{"inhibition"}.
+  }
+
 }
 \references{
 %% ~put references to the literature/web site here ~

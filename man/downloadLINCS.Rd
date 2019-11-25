@@ -20,7 +20,7 @@ downloadLINCS(dataTable = c("All", "LincsCGS", "LincsCP", "LincsMeta", "LincsGen
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-A list will be returned. Each element of the list is one type of the specified LINCS data, and the name of the element is the type.
+The specified type(s) of LINCS data will be loaded in the working environment.
 }
 \references{
 %% ~put references to the literature/web site here ~

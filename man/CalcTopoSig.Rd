@@ -13,23 +13,23 @@ CalcTopoSig(EdgeFrom,EdgeTo,interaction,AdjMat=NULL)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{EdgeFrom}{
-  A character vector of gene symbols of one end of the topology edges. This parameter is ignored if \code{AdjMat} is specified.
+  A character vector of gene symbols of one end of the edges. This parameter is ignored if \code{AdjMat} is specified.
   }
   \item{EdgeTo}{
-  A character vector of gene symbols of the other end of the topology edges. This parameter is ignored if \code{AdjMat} is specified.
+  A character vector of gene symbols of the other end of the edges. This parameter is ignored if \code{AdjMat} is specified.
   }
   \item{interaction}{
-  A numeric vector with components of 1 and -1 to denote activation and inhibition for the topology edges. This parameter is ignored if \code{AdjMat} is specified.
+  A numeric vector with components of 1 and -1 to denote activation and inhibition for the edges. This parameter is ignored if \code{AdjMat} is specified.
   }
   \item{AdjMat}{
-  The signed undirected adjacency matrix for the pathway topology. This parameter is ignored if \code{(EdgeFrom,EdgeTo,interaction)} is specified.
+  The signed undirected adjacency matrix for the pathway topology. 
   }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-If the pathway topology is a balanced signed graph (no conflict in the interactions), the returned value is a list of eigenvalues and eigenvectors of the signed undirected adjacency matrix of the graph, otherwise, \code{NULL} is returned.
+If the pathway topology is a balanced signed undirected graph (no conflict in the interactions), the returned value is a list of eigenvalues and eigenvectors of the signed undirected adjacency matrix of the graph, otherwise, \code{NULL} is returned.
 }
 \references{
 %% ~put references to the literature/web site here ~
