@@ -1,5 +1,5 @@
-#paslincs R package
-##About
+# paslincs R package
+## About
 The package implements the pathway activity signatures from LINCS data (pasLINCS) methodology for analysis of signaling pathways targeted by a perturbation. [The paper describing the methodology can found here](https://www.biorxiv.org/content/10.1101/705228v2). The package is distribute under MIT open source license (see LICENSE file). The example code for using the package is provided in the Workflow_pasLINCS_UseCaseI.Rmd RStudio notebook. [The knitted result of the notebook can be viewed here](http://htmlpreview.github.io/?https://github.com/uc-bd2k/paslincs/blob/master/Workflow_pasLINCS_UseCase.html).  
 
 
