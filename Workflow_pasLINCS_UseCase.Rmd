@@ -9,34 +9,38 @@ editor_options:
 ---
 
 # Identify target pathway
-The major application of our pasLINCS method is to identify the pathway(s) whose activity is modified after a perturbation based on their transcriptional signature (TS). This is done by correlating the TS with precomputed Pathways Activity Signatures (PASes). Here we demonstrate the use of the paslincs package in identifying the affecte pathways for the thranscriptional signature of amino acid starvation, and for LINCS signatures of chemical perturbagnes. 
+The major application of our pasLINCS method is to identify the pathway(s) whose activity is modified after a perturbation based on the transcriptional signature (TS). This is done by correlating the TS with precomputed Pathways Activity Signatures (PASes). Here we demonstrate the use of the paslincs package in identifying the affected pathways by two example transcriptional signatures, a signature of amino acid starvation and a LINCS signature of chemical perturbagen, respectively. 
 
-##To start, first load the *paslincs* package:
+Before running any analysis, we load the package and data.Then we associate the signature in each example to the PASes, and print of the summary of the analysis.
+
+**Load the *paslincs* package:**
 ```{r, results="hide",message=FALSE}
 library(paslincs)
 ```
 
-##Load the pre-computed PAS of a cell line (e.g. MCF7 cell line):
+**Load the pre-computed PAS of a cell line (e.g. MCF7 cell line):**
 ```{r}
 PAS_MCF7 <- PathSigTableList$MCF7
 head(PAS_MCF7[,1:5])
 ```
 
-##Load all pathway names for annotating:
+**Load all pathway names for annotating:**
 ```{r}
 AllPathwayName <- unique(AllEdges[,c("Pathway","PathwayName")])
 rownames(AllPathwayName) <- AllPathwayName$Pathway
 ```
 
-##Senario I: perturbation signature of amino scid starvation
-###Load the signature of amino acid starvation constructed using the GSE62673 GEO dataset:
+##Example I: perturbation signature of amino acid starvation
+In this example, we illustrate the analysis using the perturbation signatures of amino acid starvation.
+
+**Load the signature of amino acid starvation constructed using the GSE62673 GEO dataset:**
 ```{r}
 load(url("http://eh3.uc.edu/genomics/GenomicsPortals/ilincs/paslincs/GSE62673_mcf7_signatures.Rdata"),
      verbose = T)
 head(MCF7_diff_expr[,1:2])
 ```
 
-###Corralate amino acid starvation signature with pre-computed PASes:
+**Corralate amino acid starvation signature with pre-computed PASes:**
 ```{r}
 matchWithPas<-match(PAS_MCF7$GeneSymbol,rownames(MCF7_diff_expr))
 corsWithPas<-cor(MCF7_diff_expr[na.omit(matchWithPas),"deprived.of.all.amino.acids-control.media"],
@@ -45,15 +49,17 @@ topPathways<-names(head(sort(abs(corsWithPas[1,]),decreasing = T),n=5))
 topPathways
 ```
 
-###Annotating results with  pathway names:
+**Annotate results with  pathway names:**
 ```{r}
 data.frame(PathwayID=topPathways,PathwayName=AllPathwayName[topPathways,"PathwayName"],
            Correlations=abs(corsWithPas[1,])[topPathways],stringsAsFactors=FALSE)
 ```
 
 
-##Senario II: perturbation signature of LINCS CP
-###To apply this analysis to LINCS CP signatures, first download the pre-processed signatures and associated metadata:
+##Example II: perturbation signature of LINCS CP
+In this example, we illustrate the analysis using one LINCS transcriptional signature of chemical perturbagens.
+
+**Download the pre-processed signatures and associated metadata:**
 ```{r}
 downloadLINCS(c("LincsCP","LincsMeta"))
 CP <- data.frame(CP=LincsCP$MCF7[,"LINCSCP_31997"],row.names=rownames(LincsCP$MCF7),
@@ -62,7 +68,7 @@ head(CP)
 
 ```
 
-###Corralate LINCS CP signature with pre-computed PASes:
+**Corralate the LINCS CP signature with pre-computed PASes:**
 ```{r}
 matchWithPas<-match(PAS_MCF7$GeneSymbol,rownames(CP))
 corsWithPas<-cor(CP[matchWithPas,],PAS_MCF7[,-1],use="pairwise.complete.obs")
@@ -70,23 +76,22 @@ topPathways<-names(head(sort(abs(corsWithPas[1,]),decreasing = T),n=5))
 topPathways
 ```
 
-###Annotating results with  pathway names:
+**Annotate results with  pathway names:**
 ```{r}
 data.frame(PathwayID=topPathways,PathwayName=AllPathwayName[topPathways,"PathwayName"],
            Correlations=abs(corsWithPas[1,])[topPathways],stringsAsFactors=FALSE)
 ```
 
 # ROC curve
-To assess the performance of identifying the target pathway(s) using the pasLINCS method, we benchmarked the predictions with the CP signatures in LINCS L1000 data. The chemical MOA information is obtained from [clue.io](http://clue.io). We excluded the signatures of CPs that are activators or agonists of a target in this analysis. We saved the pre-processed MOA information of the chemical perturbagens into three data in the *paslincs* package: TargetMeta,TargetGene, and TargetPath. To calculate the ROC, we need also load a source script from our portal. For instance of assessing the performance of identifying the mTOR signaling pathway inhibitors for the MCF7 cell line, we illustrate the procedure as follows.
+To assess the performance of identifying the target pathway(s) using the pasLINCS method, we benchmark the predictions with the CP signatures in LINCS L1000 data. The chemical MOA information is obtained from [clue.io](http://clue.io). We exclude the signatures of CPs that are activators or agonists of a target in this analysis. We save the pre-processed MOA information of the chemical perturbagens into three data in the *paslincs* package: TargetMeta,TargetGene, and TargetPath. To calculate the ROC, we need also load a source script from our portal. For instance of assessing the performance of identifying the mTOR signaling pathway inhibitors for the MCF7 cell line, we illustrate the procedure as follows.
 
-
-##Load the list of pathways:
+**Load the list of pathways:**
 ```{r}
 PAS_MCF7 <- PathSigTableList$MCF7
 PathwayList<- colnames(PAS_MCF7)[-1]
 ```
 
-##Load the signatures of CPs which inhibit any protein(s) in the pathway of interest:
+**Load the signatures of CPs which inhibit any protein(s) in the pathway of interest:**
 ```{r}
 PathwayOfInterest <- "hsa04150v2" #Custom mTOR pathway from the paper
 mTOR_CP <- TargetPath$Positive$Perturbagen.ID[TargetPath$Positive$Pathway==PathwayOfInterest]
@@ -94,7 +99,7 @@ mTOR_CP_SigID <- LincsMeta$MCF7$signatureID[LincsMeta$MCF7$perturbagenID %in% mT
 CP_MCF7 <- LincsCP$MCF7[PAS_MCF7$GeneSymbol,mTOR_CP_SigID]
 ```
 
-##Correlate the CP signatures to the PAS:
+**Correlate the CP signatures to the PAS:**
 ```{r}
 cortab <- matrix(NA,nrow=length(PathwayList),ncol=ncol(CP_MCF7))
 for (i in 1:length(PathwayList)) {
@@ -107,7 +112,7 @@ CorTable <- data.frame(cortab,row.names=PathwayList,
                        stringsAsFactors=FALSE)
 ```
 
-##Calculating ROC curve:
+**Calculate ROC curve:**
 ```{r, results="hide",message=FALSE}
 source("http://eh3.uc.edu/genomics/GenomicsPortals/ilincs/paslincs/BenchPathway.R")
 ```
@@ -119,22 +124,22 @@ data.frame(Pathway=PathwayOfInterest,PathwayName=AllPathwayName[PathwayOfInteres
            AUC=BenchRes$AUC,rpAUC=BenchRes$rpAUC,stringsAsFactors=FALSE)
 ```
 
-##Plot the ROC curve:
+**Plot the ROC curve:**
 ```{r}
 plot(BenchRes$ROC)
 ```
 
 
 # Pathway analysis with topology information only
-To assess the improvement in the performance by integrating the CGSes into the pasLINCS method, we compared the benchmarking result with that of using only pathway topology but no CGS, which is denoted as "TP" method in our article. Here we show the example R code to identify target pathway of one TS ("LINCSCP_31997") of a CP and calculate ROC of identifying mTOR signaling pathway for mTOR inhibitors. To compare with the pasLINCS result, we consider the same pathways as the whole candidate pathways.
+To assess the improvement in the performance by integrating the CGSes into the pasLINCS method, we compare the benchmarking result with that of using only pathway topology but no CGS, which is denoted as "TP" method in our article. Here we show the example R code to identify target pathway of one TS ("LINCSCP_31997") of a CP and calculate ROC of identifying mTOR signaling pathway for mTOR inhibitors. To compare with the pasLINCS result, we consider the same pathways as the whole candidate pathways.
 
-##Load the CP signature 
+**Load the CP signature:**
 ```{r}
 CP_MCF7 <- data.frame(LincsCP$MCF7[,"LINCSCP_31997"],row.names=rownames(LincsCP$MCF7),
                       stringsAsFactors=FALSE) 
 ```
 
-##Load the list of pathways:
+**Load the list of pathways:**
 ```{r}
 PAS_MCF7 <- PathSigTableList$MCF7
 PathwayList<- colnames(PAS_MCF7)[-1]
@@ -151,13 +156,13 @@ topPathways<-names(head(sort(Score,na.last=T,decreasing=T),n=5))
 topPathways
 ```
 
-##Annotating results of identifying target pathways with  pathway names:
+**Annotate results of identifying target pathways with  pathway names:**
 ```{r}
 data.frame(PathwayID=topPathways,PathwayName=AllPathwayName[topPathways,"PathwayName"],
            Association=Score[topPathways],stringsAsFactors=FALSE)
 ```
 
-##Load the signatures of CPs which inhibit any protein(s) in the pathway of interest:
+**Load the signatures of CPs which inhibit any protein(s) in the pathway of interest:**
 ```{r}
 PathwayOfInterest <- "hsa04150v2"
 mTOR_CP <- TargetPath$Positive$Perturbagen.ID[TargetPath$Positive$Pathway==PathwayOfInterest]
@@ -165,7 +170,7 @@ mTOR_CP_SigID <- LincsMeta$MCF7$signatureID[LincsMeta$MCF7$perturbagenID %in% mT
 CP_MCF7 <- LincsCP$MCF7[,mTOR_CP_SigID]
 ```
 
-##Annotating results of benchmarking: 
+**Annotate results of benchmarking:**
 ```{r, results="hide",message=FALSE}
 ScoreTable <- CalcTPSig(EdgeInfo=pathwayTopologies,data=CP_MCF7,neigen=1)
 ScoreTable <- ScoreTable[apply(ScoreTable,1,function(x) sum(is.na(x))!=length(x)),]
@@ -179,7 +184,7 @@ data.frame(Pathway=PathwayOfInterest,PathwayName=AllPathwayName[PathwayOfInteres
            AUC=BenchRes$AUC,rpAUC=BenchRes$rpAUC,stringsAsFactors=FALSE)
 ```
 
-##Plot ROC curve:
+**Plot ROC curve:**
 ```{r}
 plot(BenchRes$ROC)
 ```
