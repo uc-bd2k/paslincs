@@ -200,8 +200,8 @@ head(PAS_MCF7[,1:5])</code></pre>
 <p><strong>Load all pathway names for annotating:</strong></p>
 <pre class="r"><code>AllPathwayName &lt;- unique(AllEdges[,c(&quot;Pathway&quot;,&quot;PathwayName&quot;)])
 rownames(AllPathwayName) &lt;- AllPathwayName$Pathway</code></pre>
-<div id="example-i-perturbation-signature-of-amino-acid-starvation" class="section level2">
-<h2>Example I: perturbation signature of amino acid starvation</h2>
+<div id="example-i-perturbation-signature-of-amino-acid-starvation" class="section level3">
+<h3>Example I: perturbation signature of amino acid starvation</h3>
 <p>In this example, we illustrate the analysis using the perturbation signatures of amino acid starvation.</p>
 <p><strong>Load the signature of amino acid starvation constructed using the GSE62673 GEO dataset:</strong></p>
 <pre class="r"><code>load(url(&quot;http://eh3.uc.edu/genomics/GenomicsPortals/ilincs/paslincs/GSE62673_mcf7_signatures.Rdata&quot;),
@@ -239,8 +239,8 @@ topPathways</code></pre>
   </script>
 </div>
 </div>
-<div id="example-ii-perturbation-signature-of-lincs-cp" class="section level2">
-<h2>Example II: perturbation signature of LINCS CP</h2>
+<div id="example-ii-perturbation-signature-of-lincs-cp" class="section level3">
+<h3>Example II: perturbation signature of LINCS CP</h3>
 <p>In this example, we illustrate the analysis using one LINCS transcriptional signature of chemical perturbagens.</p>
 <p><strong>Download the pre-processed signatures and associated metadata:</strong></p>
 <pre class="r"><code>downloadLINCS(c(&quot;LincsCP&quot;,&quot;LincsMeta&quot;))</code></pre>
