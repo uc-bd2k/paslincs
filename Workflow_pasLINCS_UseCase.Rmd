@@ -146,7 +146,7 @@ PathwayList<- colnames(PAS_MCF7)[-1]
 pathwayTopologies <- AllEdges[AllEdges$Pathway %in% PathwayList,]
 ```
 
-##Associate CP signatures to pathways:
+**Associate CP signatures to pathways:**
 ```{r, results="hide",message=FALSE}
 Score <- unlist(CalcTPSig(EdgeInfo=pathwayTopologies,data=CP_MCF7,neigen=1))
 names(Score) <- unique(pathwayTopologies$Pathway)
