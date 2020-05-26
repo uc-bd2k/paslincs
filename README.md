@@ -4,11 +4,11 @@ The package implements the pathway activity signatures from LINCS data (pasLINCS
 
 
 ## Installation
-# Step 0. Install "devtools" package. (Skip this step if "devtools" is already installed.)
+### Step 0. Install "devtools" package. (Skip this step if "devtools" is already installed.)
 
 install.packages("devtools")
 
-# Step 1. Install "paslincs" package: 
+### Step 1. Install "paslincs" package: 
 
 library(devtools)
 install_github("uc-bd2k/paslincs")
