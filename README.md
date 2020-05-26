@@ -4,15 +4,15 @@ The package implements the pathway activity signatures from LINCS data (pasLINCS
 
 
 ## Installation
-### Step 0. Install "devtools" package. (Skip this step if "devtools" is already installed.)
-
+Step 0. Install "devtools" package. (Skip this step if "devtools" is already installed.)
+```{r}
 install.packages("devtools")
-
-### Step 1. Install "paslincs" package: 
-
+```
+Step 1. Install "paslincs" package: 
+```{r}
 library(devtools)
 install_github("uc-bd2k/paslincs")
-
+```
 
 ## Using paslincs package
 Please refer to the [Workflow_pasLINCS_UseCaseI.Rmd](http://htmlpreview.github.io/?https://github.com/uc-bd2k/paslincs/blob/master/Workflow_pasLINCS_UseCase.html) RStudio notebook. 
