@@ -8,7 +8,7 @@ Step 0. Install "devtools" package. (Skip this step if "devtools" is already ins
 ```{r}
 install.packages("devtools")
 ```
-Step 1. Install "paslincs" package: 
+Step 1. Install "paslincs" package.
 ```{r}
 library(devtools)
 install_github("uc-bd2k/paslincs")
